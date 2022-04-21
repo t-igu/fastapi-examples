@@ -93,7 +93,7 @@ python manage.py migrate
 python manage.py createsuperuser
 # ユーザー名 (leave blank to use 'user'): 
 # メールアドレス: user@example.com
-# Password: secret@user
+# Password: 
 # Password (again): 
 # Superuser created successfully.
 ```
