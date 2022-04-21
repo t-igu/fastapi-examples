@@ -1,0 +1,51 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'aggrid/styles/ag-grid.min.css' %}" rel="stylesheet">
+<link href="{% static 'aggrid/styles/ag-theme-balham.min.css' %}" rel="stylesheet">
+<script src="{% static 'aggrid/ag-grid-community.min.noStyle.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+<h4>Employees</h4>
+<p>100,000件のレコードを表示します。Ag-Gridなら2-3秒で表示できます。</p>
+
+<!-- ここに gridを表示する  -->
+<div id="myGrid" style="height: 360px;width:100%;" class="ag-theme-balham"></div>
+
+<script type="text/javascript">
+  // 列情報を定義する
+  var columnDefs = [
+  {
+    headerName: "No",
+    valueGetter: "node.rowIndex + 1", width: 80, cellStyle: {"text-align": "right"}
+  },    
+    {headerName: "id", field: "id", width: 80, hide: true},
+    {headerName: "name", field: "name", width: 160},
+    {headerName: "birthday", field: "birthday", width: 160},
+  ];
+
+  // ag-gridのオプション
+  var gridOptions = {
+    columnDefs: columnDefs,
+  };
+  // setup the grid after the page has finished loading
+  document.addEventListener('DOMContentLoaded', () => {
+
+    const gridDiv = document.querySelector('#myGrid');
+    new agGrid.Grid(gridDiv, gridOptions);
+
+    fetch('/v2/employee', {credentials: 'include'})
+    .then((response) => response.json())
+    .then((data) => {
+      // console.log(data);
+      gridOptions.api.setRowData(data);
+    });
+  });
+</script> 
+
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'aggrid/styles/ag-grid.min.css' %}" rel="stylesheet">
+<link href="{% static 'aggrid/styles/ag-theme-alpine.min.css' %}" rel="stylesheet">
+<script src="{% static 'aggrid/ag-grid-community.min.noStyle.js' %}" type="text/javascript"></script>
+<style>
+    .uk-icon:hover{
+        cursor: pointer;
+    }
+    .ag-header-cell-text{
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h3>File CRUD</h3>
+
+<div>
+    <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+</div>
+
+<div class="js-upload uk-placeholder uk-text-center">
+    <span uk-icon="icon: cloud-upload"></span>
+    <span class="uk-text-middle">ファイルをドロップするかまたは</span>
+    <div uk-form-custom>
+        <input type="file" multiple>
+        <button type="button" class="uk-button uk-button-primary uk-button-small">ファイル選択</button>
+    </div>
+    <div class="uk-margin">
+        <div id="myGrid" style="height: 300px;width:100%;" class="ag-theme-alpine"></div>
+    </div>
+</div>
+<script>
+    function formatNumber(number) {
+        return Math.floor(number).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    }
+    function currencyFormatter(params) {
+        var val = (params.value) + '';
+        var num = val.split('.');
+        var num0 = formatNumber(num[0]);
+        return (num.length > 1) ? num0 + "." + num[1] : num0;
+    }
+
+    function deletefile(filename){
+        fetch('/v2/upload/delete/'+filename, {credentials: 'include', method: "POST",})
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data, typeof(data));
+            gridOptions.api.setRowData(data);
+        });
+        // alert(`${JSON.stringify(filename)}を削除しました。`);
+    }
+
+    let columnDefs = [
+        {
+            headerName: "No",
+            valueGetter: "node.rowIndex + 1", width: 60, 
+            cellStyle: {"text-align": "right"}
+        },
+        {headerName: "file name", field: "filename"},
+        {headerName: "extention", field: "extention", width: 100},
+        {
+            headerName: "size", field: "filesize", width: 100, 
+            cellStyle: {"text-align": "right"}, 
+            valueFormatter: currencyFormatter
+        },
+        {headerName: '', width: 60,
+            cellRenderer : function(params){
+                console.log(params.data);
+                let filename = params.data.filename;
+                html="<a href='/v2/upload/download/"+filename+"' download><span uk-icon='icon: download'></span></a>"
+                return html
+            }
+        },
+        {headerName: '', width: 60,
+            cellRenderer : function(params){
+                console.log(params.data);
+                let filename = params.data.filename;
+                html="<span uk-icon='icon: close' onclick='deletefile(\""+filename+"\");'></span>"
+                return html
+            }
+        }
+    ];
+
+    // ag-gridのオプション
+    let gridOptions = {
+        columnDefs: columnDefs,
+    };
+
+    let bar = document.getElementById('js-progressbar');
+    UIkit.upload('.js-upload', {
+        url: '/v2/upload/upload',
+        // params: {credentials: 'include'},
+        multiple: true,
+        beforeSend: function () {
+            // console.log('beforeSend', arguments);
+        },
+        beforeAll: function () {
+            // console.log('beforeAll', arguments);
+        },
+        load: function () {
+            // console.log('load', arguments);
+        },
+        error: function () {
+            // console.log('error', arguments);
+        },
+        complete: function () {
+            console.log('complete', arguments);
+        },
+        loadStart: function (e) {
+            // console.log('loadStart', arguments);
+            bar.removeAttribute('hidden');
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+        progress: function (e) {
+            // console.log('progress', arguments);
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+        loadEnd: function (e) {
+            // console.log('loadEnd', arguments);
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+        completeAll: function () {
+            console.log('completeAll', typeof(arguments[0].response));
+            let data=JSON.parse(arguments[0].response);
+            gridOptions.api.setRowData(data);            
+            setTimeout(function () {
+                bar.setAttribute('hidden', 'hidden');
+            }, 1000);
+            // alert('Upload Completed');
+        }
+    });
+    // setup the grid after the page has finished loading
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const gridDiv = document.querySelector('#myGrid');
+        new agGrid.Grid(gridDiv, gridOptions);
+
+        fetch('/v2/upload/', {credentials: 'include'})
+        .then((response) => response.json())
+        .then((data) => {
+            // console.log(data);
+            gridOptions.api.setRowData(data);
+        });
+    });    
+</script>
+{% endblock %}

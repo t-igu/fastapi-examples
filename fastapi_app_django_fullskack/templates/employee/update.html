@@ -1,0 +1,5 @@
+<form method="post">
+    {% csrf_token %}
+    <table class="uk-table">{{form.as_table}}</table>
+    <button type="submit" class="uk-button uk-button-primary">更新</button>
+</form>

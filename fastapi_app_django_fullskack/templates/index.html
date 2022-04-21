@@ -1,0 +1,22 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<button class="uk-button uk-button-link" type="button" onclick="getCurrentUser();">
+    ログインユーザーの情報を取得する
+</button>
+<div id="message" class="uk-alert-primary" style="word-break: break-all;"></div>
+<script>
+    function getCurrentUser(){
+        fetch("/v2/user/me", {credentials: "include"})
+        .then(e => e.json())
+        .then(json => {
+            let elem = document.getElementById("message");
+            elem.innerHTML = JSON.stringify(json);
+            UIkit.alert(elem);
+        })
+    }
+</script>
+
+{% endblock %}

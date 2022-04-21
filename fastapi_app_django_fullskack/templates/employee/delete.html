@@ -1,0 +1,10 @@
+<form method="post">
+    {% csrf_token %}
+    <table class="uk-table">
+        <tr><td>氏名     ：</td><td>{{ object.name             }}</td></tr>
+        <tr><td>生年月日 ：</td><td>{{ object.birthday         }}</td></tr>
+    </table>
+    <br/>
+    <br/>
+    <button type="submit" class="uk-button uk-button-danger">削除</button>
+</form>

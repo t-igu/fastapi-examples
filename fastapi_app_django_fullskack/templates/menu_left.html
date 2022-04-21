@@ -1,0 +1,13 @@
+<ul class="uk-nav uk-nav-default">
+  {% if user.is_authenticated %}
+  <li><a class="uk-link" href="/index">CurrentUser</a></li>
+  <li><a class="uk-link" href="/aggrid">AG Grid Community</a></li>
+  <li><a class="uk-link" href="/jexcel">JSpreadSheet-CE</a></li>
+  <li><a class="uk-link" href="/employee">Employee CRUD</a></li>
+  <li><a class="uk-link" href="/fileupload">File CRUD</a></li>
+  <li><a class="uk-link" href="/selectbox">SelectBox Move</a></li>
+  {% else %}
+  <li><a class="uk-link" href="{% url 'account_login' %}">Sign In</a></li>
+  <li><a class="uk-link" href="{% url 'account_signup' %}">Sign Up</a></li>
+  {% endif %}
+</ul>

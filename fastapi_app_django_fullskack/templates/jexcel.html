@@ -1,0 +1,57 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'jspreadsheet-ce/jsuites.css' %}" rel="stylesheet">
+<link href="{% static 'jspreadsheet-ce/jexcel.css' %}" rel="stylesheet">
+<script src="{% static 'jspreadsheet-ce/jsuites.js' %}" type="text/javascript"></script>
+<script src="{% static 'jspreadsheet-ce/jexcel.js' %}" type="text/javascript"></script>
+<style>
+  .jexcel > tbody > tr > td.readonly {color: black;}
+  .jexcel > thead > tr > td, .jexcel > tbody > tr > td{font-size: 0.8rem;} 
+</style>
+{% endblock %}
+
+{% block content %}
+<h4>Employees</h4>
+
+<p>100,000件のレコードを表示します。数秒で表示できます。</p>
+
+<div id='my-spreadsheet'></div>
+
+<script>
+  let spreadsheet = jexcel(document.getElementById('my-spreadsheet'), {
+    // data:data,
+    lazyLoading:true,
+    loadingSpin:true,    
+    tableOverflow:true,
+    tableHeight:'400px',    
+    columns:[
+    // 列情報を定義する
+    // Column('actor_id', Integer, Sequence('some_id_seq'), primary_key=True),
+    // Column('first_name', String, nullable=False),
+    // Column('last_name', String, nullable=False),
+    // Column('last_update', DATETIME, default=datetime.now, nullable=False)    
+      { title:'id', width:60 , type: "hidden", align: "left"},
+      { title:'name', readOnly: true, width:120 , align: "left"},
+      { title:'birthday', readOnly: true, width:80 , align: "left"},
+      { title:'department_id', readOnly: true, width:40 , align: "left"},
+      { title:'created_at', readOnly: true, width:180 , align: "left"},
+      { title:'updated_at', readOnly: true, width:180 , align: "left"},
+    ],
+    url: '/v2/employee',
+  });
+  // setup the grid after the page has finished loading
+  // document.addEventListener('DOMContentLoaded', () => {
+  //   fetch('/v2/department', {credentials: 'include'})
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     // console.log(data);
+  //     spreadsheet.setData(data);
+  //   });
+  // });
+</script>
+{% endblock %}

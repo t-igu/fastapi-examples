@@ -1,0 +1,91 @@
+{% extends "account/base.html" %}
+
+{% block extra_head %}
+<style>
+    select.move-select{
+        min-width: 160px;
+        height: 150px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h1>SelectBox間のオプション移動</h1>
+  
+<div class="uk-flex uk-flex-middle">
+    <div>
+        <div class="uk-padding">
+            <select id="left-select" class="move-select" multiple>
+                <option value="0">Apple</option>
+                <option value="1">Orange</option>
+                <option value="2">Lemon</option>
+                <option value="3">Strawberry</option>
+              </select>
+        </div>
+    </div>
+    <div>
+        <div class="">
+            <button type="button" class="uk-button uk-button-small" onclick="move_options('1');">→</button><br/><br/>
+            <button type="button" class="uk-button uk-button-small" onclick="move_options('2');">←</button>
+        </div>
+    </div>
+    <div>
+        <div class="uk-padding">
+            <select id="right-select" class="move-select" multiple>
+            </select>
+        </div>
+    </div>
+</div>
+
+<table>
+<tbody>
+<tr>
+<td>
+
+</td>
+<td>
+
+</td>
+<td>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+<br/>
+
+<script>
+function move_options(lr_flg){
+
+var from_id = lr_flg==1 ? '#left-select' : '#right-select';
+var dest_id = lr_flg==1 ? '#right-select' : '#left-select';
+
+var query_text = `${from_id} option`;
+
+console.log(lr_flg, query_text);
+
+var options = document.querySelectorAll(query_text);
+
+console.log(options);
+
+if (options){
+
+  elements = Array.from( options ) ;
+
+  var selected_options = elements.filter(function(option) {
+    return option.selected == true;
+  });
+
+  for (let i=0; i<selected_options.length; i++) {
+      var clone_element = selected_options[i].cloneNode(true);
+      var select = document.querySelector(`${dest_id}`);
+      select.appendChild(clone_element);
+      selected_options[i].remove();
+  }
+}
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+<style>
+.uk-table-small td, .uk-table-small th{
+  padding:4px 5px;
+}
+</style>
+
+  <h2>Employee List</h2>
+
+  <table  class="uk-table uk-table-small uk-table-divider uk-table-justify">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>氏名</th>
+        <th>生年月日</th>
+        <th>所属</th>
+        <th>
+          <a class="uk-margin-left" target="_blank" href="{% url 'employee:create' %}" uk-icon="icon: plus-circle"></a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in object_list %}
+      <tr>
+        <td>{{ employee.id }}</td>
+        <td>{{ employee.name }}</td>
+        <td>{{ employee.birthday }}</td>
+        <td>{{ employee.department }}</td>
+        <td>
+          <a class="uk-margin-left" target="_blank" href="{% url 'employee:update' employee.pk %}" uk-icon="icon: pencil"></a>
+          <a class="uk-margin-left" target="_blank" href="{% url 'employee:delete' employee.pk %}" uk-icon="icon: trash"></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+    <!-- ページング処理の部分 -->
+    <ul class="uk-pagination" uk-margin>
+        {% if page_obj.has_previous %}
+            <li><a href="?page=1"><span class="uk-link">first</span></a></li>
+            <li><a href="?page={{ page_obj.previous_page_number }}"><span uk-pagination-previous></span></a></li>
+        {% endif %}
+
+        {% for i in page_obj.paginator.page_range %}
+            {% if page_obj.number == i %}
+                <li class="uk-disabled"><span>{{ i }}</span></li>
+            {% elif i > page_obj.number|add:'-4' and i < page_obj.number|add:'4' %}
+                <li><a href="?page={{ i }}"><span class="uk-link">{{ i }}</span></a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}"><span class="uk-link" uk-pagination-next></span></a></li>
+            <li><a href="?page={{ page_obj.paginator.num_pages }}"><span class="uk-link">last</span></a></li>
+        {% endif %}
+    </ul>
+    
+{% endblock %}
