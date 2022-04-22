@@ -110,3 +110,7 @@ insert into department (name) values
 ('営業部')
 
 ```
+
+## License
+
+This is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).

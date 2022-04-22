@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="description" content="aaaaaa">
+<meta name="author" content="myname">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="">
+<link rel="shortcut icon" href="">
+<title>title</title>
+<link href="static/jspreadsheet-ce/jsuites.css" rel="stylesheet">
+<link href="static/jspreadsheet-ce/jexcel.css" rel="stylesheet">
+<script src="static/jspreadsheet-ce/jsuites.js" type="text/javascript"></script>
+<script src="static/jspreadsheet-ce/jexcel.js" type="text/javascript"></script>
+<style>
+    body{
+        padding:15px;
+    }
+    td.readonly{
+        color:black !important;
+    }
+</style>
+</head>
+<body>
+    <h1>SpreadSheet(1)</h1>
+    <div id='my-spreadsheet'></div>
+    <div>
+        <button type="button" onclick="deleteRows();">clear</button>
+        <button type="button" onclick="rollback();">redraw</button>
+        <button type="button" onclick="getData();">getData</button>
+        <button type="button" onclick="getJson();">getJson</button>
+        <button type="button" onclick="getDataCount();">rowCount</button>
+        <button type="button" onclick="addRow();">addRow</button>
+        <button type="button" onclick="hideRowNoCol();">hideRowNo</button>
+        <button type="button" onclick="showRowNoCol();">showRowNo</button>
+    </div>
+<script>
+
+let makers = null;
+let rows = null;
+let ss1 = null;
+
+async function createJspreadSheet(){
+    ss1 = jspreadsheet(document.getElementById('my-spreadsheet'), {
+        // editable: false,
+        search:true,
+        data:rows,
+        // text:{},
+        about:false,
+        // defaultColAlign: "left",
+        // autoIncrement:false,
+        columns:[
+            { title:'Maker', width:100, align: "left", type:'dropdown', source: makers},
+            { title:'Model', width:100, align: "left" },
+            { title:'Model Year', width:100 },
+            { title:'Price', width:80 },
+            { title:' ', width:200 },
+        ],
+        updateTable: function(instance, cell, x, y, val, label, cellName) {
+            const row = rows[y];
+            if (row){
+                console.log(cell, x, y, val, label, cellName, row);
+                const model = row['model']; 
+                if (model) {
+                    cell.classList.add('readonly');
+                }
+                if (x == 4) {
+                    cell.innerHTML ="<a href='#'>"+model+"</a>";
+                }
+
+            }
+        }    
+    });
+}
+
+
+init = async() => {
+    const res = await fetch("/cars");
+    rows = await res.json();
+
+    const res2 = await fetch("/makers");
+    makers = await res2.json();
+
+    console.log(rows, makers)
+
+    await createJspreadSheet();
+}
+
+window.onload = function(){
+    init();
+}
+
+function hideRowNoCol(){
+    let elem = document.querySelector("table.jexcel>colgroup>col");
+    console.log(elem);
+    elem.width = "0";
+}
+
+function showRowNoCol(){
+    let elem = document.querySelector("table.jexcel>colgroup>col");
+    console.log(elem);
+    elem.width = "50";
+}
+
+function deleteRows(){
+    ss1.setData([]);
+    ss1.refresh();
+}
+
+function rollback(){
+    ss1.setData(rows);
+    ss1.refresh();
+}
+
+function getData(){
+    const data = ss1.getData();
+    alert(data);
+}
+
+function getJson(){
+    const data = ss1.getJson();
+    alert(JSON.stringify(data));
+}
+
+function getDataCount(){
+    const data = ss1.getData();
+    alert(data.length);
+}
+
+function addRow(){
+    ss1.insertRow({maker:null, model:null, model_year: null, price: null});
+}
+</script>
+</body>
+</html>
