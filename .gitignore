@@ -12,3 +12,4 @@ settings/
 *.log
 /fastapi_app_django_fullskack/fastapi_app_django_fullskack/settings.py
 messages/
+/fastapi-examples/jspreadsheet-example/static/jspreadsheet-ce/
