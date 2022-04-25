@@ -1,8 +1,8 @@
 __pycache__/
 logs/
 *.xlsx
-*.txt
 *.csv
+*.log
 uploads/
 settings/
-settings.py
+fastapi_app_django_fullskack/settings.*
