@@ -2,9 +2,9 @@ __pycache__/
 logs/
 uploads/
 settings/
-aggrid/
-uikit/
-jspreadsheet-ce/
+fastapi_app_django_fullskack/static/aggrid/
+fastapi_app_django_fullskack/static/uikit/
+fastapi_app_django_fullskack/static/jspreadsheet-ce/
 *.xlsx
 *.csv
 *.log
