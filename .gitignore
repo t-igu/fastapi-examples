@@ -1,12 +1,12 @@
 __pycache__/
 logs/
-*.xlsx
-*.csv
-*.log
 uploads/
 settings/
-fastapi_app_django_fullskack/settings.*
-messages/
 aggrid/
 uikit/
 jspreadsheet-ce/
+*.xlsx
+*.csv
+*.log
+fastapi_app_django_fullskack/settings.*
+messages/
