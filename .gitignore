@@ -5,3 +5,4 @@ logs/
 *.csv
 uploads/
 settings/
+fastapi_app_django_fullskack/fastapi_app_django_fullskack/settings.py
