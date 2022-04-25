@@ -3,6 +3,7 @@ logs/
 uploads/
 settings/
 fastapi_app_django_fullskack/static/aggrid/*.css
+fastapi-examples/fastapi_app_django_fullskack/static/aggrid/styles/
 fastapi_app_django_fullskack/static/uikit/*.css
 fastapi_app_django_fullskack/static/jspreadsheet-ce/*.css
 fastapi_app_django_fullskack/static/aggrid/*.js
