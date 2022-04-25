@@ -6,3 +6,4 @@ logs/
 uploads/
 settings/
 fastapi_app_django_fullskack/settings.*
+allauth/account/
