@@ -1,5 +1,9 @@
 # 
 
+## install python packages
+
+Install some python packages.
+
 ```shell
 # django
 pip django
@@ -35,9 +39,9 @@ pip install asyncpg
 pip install sqlalchemy
 ```
 
-```
-python manage.py collectstatic
-```
+## setup django-allauth
+
+### settings.py
 
 ```python: mysite/settings.py
 INSTALLED_APPS = [
@@ -51,16 +55,12 @@ INSTALLED_APPS = [
 ]
 ```
 
-|URL              |説明
-|:----------------|:------------------------------
-signup/           |
-login/            |
-logout/           |
-password/change/  |
+### urls.py
 
 ```python: mysite/urls.py
 from django.contrib import admin
-from django.urls import include, path              #includeを追加
+from django.urls import include, path                   
+#includeを追加
 from django.views.generic import TemplateView as tv     #追加
 
 urlpatterns = [
@@ -70,6 +70,9 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),                            #追加
 ]
 ```
+
+## setup FastAPI
+
 
 ```python: main.py
 from fastapi import FastAPI
@@ -87,6 +90,7 @@ def read_main():
 app.mount("", WSGIMiddleware(django_app))
 ```
 
+## migrate
 
 ```shell
 python manage.py migrate
@@ -96,6 +100,12 @@ python manage.py createsuperuser
 # Password: 
 # Password (again): 
 # Superuser created successfully.
+```
+
+## migrate
+
+```
+python manage.py collectstatic
 ```
 
 
@@ -128,3 +138,40 @@ create table public.employee (
   , primary key (id)
 );
 ```
+
+## setup javascript framework files
+
+This sample makes use of some javascriprt frameworks.Download [UIKIT](https://getuikit.com/docs/introduction), [AGGrid](https://www.ag-grid.com/javascript-data-grid/download/) and [JSpreadsheet-ce](https://bossanova.uk/jspreadsheet) and setup files like this:
+
+├── fastapi_app_django_fullskack
+│   ├── static
+│   │   ├── aggrid
+│   │   │   ├── ag-grid-community.min.noStyle.js
+│   │   │   └── styles
+│   │   │       ├── ag-grid.min.css
+│   │   │       ├── ag-theme-alpine-dark.min.css
+│   │   │       ├── ag-theme-alpine.min.css
+│   │   │       ├── ag-theme-balham-dark.min.css
+│   │   │       ├── ag-theme-balham.min.css
+│   │   │       ├── ag-theme-blue.min.css
+│   │   │       ├── ag-theme-bootstrap.min.css
+│   │   │       ├── ag-theme-dark.min.css
+│   │   │       ├── ag-theme-fresh.min.css
+│   │   │       ├── ag-theme-material.min.css
+│   │   │       ├── generate-web-fonts.js
+│   │   │       ├── package.json
+│   │   │       └── scss-template.hbs
+│   │   ├── jspreadsheet-ce
+│   │   │   ├── jexcel.css
+│   │   │   ├── jexcel.js
+│   │   │   ├── jsuites.css
+│   │   │   └── jsuites.js
+│   │   └── uikit
+│   │       ├── css
+│   │       │   ├── uikit-rtl.css
+│   │       │   ├── uikit-rtl.min.css
+│   │       │   ├── uikit.css
+│   │       │   └── uikit.min.css
+│   │       └── js
+│   │           ├── uikit-icons.min.js
+│   │           └── uikit.min.js

@@ -1,0 +1,56 @@
+<html>
+<script src="https://jsuites.net/v4/jsuites.js"></script>
+<script src="https://jsuites.net/v4/jsuites.layout.js"></script>
+<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.layout.css" type="text/css" />
+ 
+<div class='row'>
+<div class='column'>
+    <div id='jsuites-template' style='border:1px solid #ccc; padding: 10px;'></div>
+</div>
+</div>
+ 
+<script>
+jSuites.template(document.getElementById('jsuites-template'), {
+    url: "/static/product.json",
+    template: {
+        item: function(data) {
+            const formatNumber = Number(data.Price).toLocaleString();
+            return `
+                <div>
+                <div class="row">
+                    <div class="column f1 p10 left">
+                        <br/>
+                        <div class="column">
+                            <img class=""  width="200" height="150" alt="${data.Description}" src="${data.img}">
+                        </div>
+                        <br/>
+                        <div>
+                            <table>
+                                <tr>
+                                    <td>商品名</td>
+                                    <td>${data.Title}</td>
+                                </tr>
+                                <tr>
+                                    <td>価格</td>
+                                    <td>${formatNumber}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <button class="jbutton dark">Add to cart</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `
+        }
+    },
+    search: true,
+    pagination: 5,
+    searchPlaceHolder: 'Search a item'
+});
+</script>
+</html>

@@ -8,6 +8,7 @@ fastapi_app_django_fullskack/static/jspreadsheet-ce/
 *.xlsx
 *.csv
 *.log
+*.jpeg
 fastapi_app_django_fullskack/fastapi_app_django_fullskack/settings.py
 messages/
 jspreadsheet-example/static/jspreadsheet-ce/

@@ -1,0 +1,149 @@
+.
+├── README.md
+├── fastapi_app_django_fullskack
+│   ├── main.py
+│   ├── manage.py
+│   ├── setup
+│   │   └── postgres_setup.sql
+│   ├── setup.sh
+│   ├── start.sh
+│   ├── static
+│   │   ├── aggrid
+│   │   │   ├── ag-grid-community.min.noStyle.js
+│   │   │   └── styles
+│   │   │       ├── ag-grid.min.css
+│   │   │       ├── ag-theme-alpine-dark.min.css
+│   │   │       ├── ag-theme-alpine.min.css
+│   │   │       ├── ag-theme-balham-dark.min.css
+│   │   │       ├── ag-theme-balham.min.css
+│   │   │       ├── ag-theme-blue.min.css
+│   │   │       ├── ag-theme-bootstrap.min.css
+│   │   │       ├── ag-theme-dark.min.css
+│   │   │       ├── ag-theme-fresh.min.css
+│   │   │       ├── ag-theme-material.min.css
+│   │   │       ├── generate-web-fonts.js
+│   │   │       ├── package.json
+│   │   │       └── scss-template.hbs
+│   │   ├── common
+│   │   │   ├── css
+│   │   │   │   └── app.css
+│   │   │   └── js
+│   │   │       ├── allauth.js
+│   │   │       └── app.js
+│   │   ├── jspreadsheet-ce
+│   │   │   ├── jexcel.css
+│   │   │   ├── jexcel.js
+│   │   │   ├── jsuites.css
+│   │   │   └── jsuites.js
+│   │   └── uikit
+│   │       ├── css
+│   │       │   ├── uikit-rtl.css
+│   │       │   ├── uikit-rtl.min.css
+│   │       │   ├── uikit.css
+│   │       │   └── uikit.min.css
+│   │       └── js
+│   │           ├── uikit-icons.min.js
+│   │           └── uikit.min.js
+│   ├── stop.sh
+│   ├── templates
+│   │   ├── __base.html
+│   │   ├── aggrid.html
+│   │   ├── allauth
+│   │   │   └── account
+│   │   │       ├── account_inactive.html
+│   │   │       ├── base.html
+│   │   │       ├── email
+│   │   │       │   ├── base_message.txt
+│   │   │       │   ├── email_confirmation_message.txt
+│   │   │       │   ├── email_confirmation_signup_message.txt
+│   │   │       │   ├── email_confirmation_signup_subject.txt
+│   │   │       │   ├── email_confirmation_subject.txt
+│   │   │       │   ├── password_reset_key_message.txt
+│   │   │       │   ├── password_reset_key_subject.txt
+│   │   │       │   ├── unknown_account_message.txt
+│   │   │       │   └── unknown_account_subject.txt
+│   │   │       ├── email.html
+│   │   │       ├── email_confirm.html
+│   │   │       ├── login.html
+│   │   │       ├── logout.html
+│   │   │       ├── messages
+│   │   │       │   ├── cannot_delete_primary_email.txt
+│   │   │       │   ├── email_confirmation_sent.txt
+│   │   │       │   ├── email_confirmed.txt
+│   │   │       │   ├── email_deleted.txt
+│   │   │       │   ├── logged_in.txt
+│   │   │       │   ├── logged_out.txt
+│   │   │       │   ├── password_changed.txt
+│   │   │       │   ├── password_set.txt
+│   │   │       │   ├── primary_email_set.txt
+│   │   │       │   └── unverified_primary_email.txt
+│   │   │       ├── password_change.html
+│   │   │       ├── password_reset.html
+│   │   │       ├── password_reset_done.html
+│   │   │       ├── password_reset_from_key.html
+│   │   │       ├── password_reset_from_key_done.html
+│   │   │       ├── password_set.html
+│   │   │       ├── signup.html
+│   │   │       ├── signup_closed.html
+│   │   │       ├── snippets
+│   │   │       │   └── already_logged_in.html
+│   │   │       ├── verification_sent.html
+│   │   │       └── verified_email_required.html
+│   │   ├── employee
+│   │   │   ├── create.html
+│   │   │   ├── crud.html
+│   │   │   ├── delete.html
+│   │   │   ├── index.html
+│   │   │   └── update.html
+│   │   ├── fileupload.html
+│   │   ├── home.html
+│   │   ├── index.html
+│   │   ├── jexcel.html
+│   │   ├── menu_left.html
+│   │   ├── selectbox.html
+│   │   └── uikit
+│   │       └── index.html
+│   ├── test.sh
+│   └── uploads
+│       ├── CSVファイル2.csv
+│       ├── color_image.xlsx
+│       ├── jspreadsheet.csv
+│       ├── sample.png
+│       └── 飲み会リスト.xlsx
+├── jspreadsheet-example
+│   ├── fastapi_templates.py
+│   ├── main.py
+│   ├── run.py
+│   ├── server.sh
+│   ├── static
+│   │   ├── app
+│   │   │   ├── app.css
+│   │   │   ├── app.js
+│   │   │   └── uikit_helper.js
+│   │   ├── jspreadsheet-ce
+│   │   │   ├── jexcel.css
+│   │   │   ├── jexcel.js
+│   │   │   ├── jsuites.css
+│   │   │   └── jsuites.js
+│   │   └── uikit
+│   │       ├── css
+│   │       │   ├── uikit-rtl.css
+│   │       │   ├── uikit-rtl.min.css
+│   │       │   ├── uikit.css
+│   │       │   └── uikit.min.css
+│   │       └── js
+│   │           ├── uikit-icons.min.js
+│   │           └── uikit.min.js
+│   └── templates
+│       ├── index.html
+│       └── simple.html
+├── requirements.txt
+├── settings
+│   ├── app_settings.py
+│   ├── app_settings_example.py
+│   ├── db_settings.py
+│   ├── logging_settings.py
+│   └── server_settings.py
+└── tree.txt
+
+53 directories, 277 files
