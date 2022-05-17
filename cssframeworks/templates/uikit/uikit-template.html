@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/css/uikit.min.css" />
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit-icons.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', path='/css/uikit-helper.css') }}" />
+<header>
+    <!-- navigation block -->
+<nav class="uk-navbar-container header" uk-navbar>
+    <div class="uk-navbar-left">
+        <a href="/" class="uk-navbar-item uk-logo uk-padding-small">My Project</a>
+    </div>
+    <div class="uk-navbar-right">
+        <button type="button" class="uk-button uk-button-primary uk-button-small uk-margin-right">yourname</button>
+        <div class="uk-navbar-dropdown">
+        <ul class="uk-nav uk-navbar-dropdown-nav">
+            <li><a class="uk-link" href="#">menu1</a></li>
+            <li><a class="uk-link" href="#">menu2</a></li>
+            <li><a class="uk-link" href="#">menu3</a></li>
+        </ul>
+        </div>
+        <a class="uk-margin-right" href="#offcanvas-slide" uk-toggle uk-navbar-toggle-icon></a>
+        <div id="offcanvas-slide" uk-offcanvas="overlay: true">
+            <div class="uk-offcanvas-bar">
+            <ul class="uk-nav uk-nav-default">
+                <li><a class="uk-link" href="#">menu1</a></li>
+                <li><a class="uk-link" href="#">menu2</a></li>
+                <li><a class="uk-link" href="#">menu3</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+</header>            
+<main style="overflow-y: auto;height: 380px;">
+    <div class="uk-card uk-card-muted uk-padding-small uk-padding-remove-bottom"  >
+        <!-- main block -->
+        <div>
+            <!-- breadcrumb block -->
+            <ul class="uk-breadcrumb">
+                <li><a href="#">menu1</a></li>
+                <li><a href="#">menu1-1</a></li>
+                <li><a href="#">menu1-1-1</a></li>
+                <li><span>mypage</span></li>
+            </ul>
+            <h1>Hello</h1>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            main<br/>
+            <!-- main function bottons block -->
+            <nav class="uk-navbar-container footer" uk-navbar>
+                <div class="uk-navbar-left">
+                    <ul class="uk-nav">
+                        <div class="uk-flex uk-flex-left">
+                            <li><a class="uk-button uk-button-primary func-button" href="#">back</a></li>
+                        </div>
+                    </ul>
+                </div>
+                <div class="uk-navbar-right">
+                    <div class="uk-flex uk-flex-right">
+                        <a class="uk-button uk-button-secondary uk-margin-right func-button" href="#">menu1</a>
+                        <a class="uk-button uk-button-secondary uk-margin-right func-button" href="#">menu2</a>
+                        <a class="uk-button uk-button-danger func-button" href="#">menu3</a>
+                    </div>
+                </div>
+            </nav>    
+        </div>
+    </div>
+</main>
+<!-- footer block -->
+<footer class="uk-margin-small uk-text-right uk-padding-small">
+    &copy ishibe.co.jp
+</footer>            
+{% endblock content %}

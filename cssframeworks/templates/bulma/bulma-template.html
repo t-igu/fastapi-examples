@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
+
+<h1>Layout</h1>  
+<header>
+  <nav class="navbar is-dark">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="#">
+        My Project
+      </a>
+      <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>  
+    <div id="navbarExampleTransparentExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="https://bulma.io/">
+          Home
+        </a>
+      </div>
+  
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-item" href="#">
+            <div class="button is-link">
+              yourname
+            </div>
+          </a>
+          <div class="navbar-dropdown is-boxed">
+            <a class="navbar-item" href="#">
+              ChangePassword
+            </a>
+            <a class="navbar-item" href="#">
+              Logout
+            </a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-item" href="#">
+            <div class="button is-dark">
+              <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+              </svg>
+            </div>
+          </a>
+          <div class="navbar-dropdown is-boxed is-right">
+            <a class="navbar-item" href="#">
+              Menu1
+            </a>
+            <a class="navbar-item" href="#">
+              Menu2
+            </a>
+            <a class="navbar-item" href="#">
+              Menu3
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<main style="height:480px;overflow-y: auto;">
+  <div class="p-2">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="#">Bulma</a></li>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Components</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Breadcrumb</a></li>
+      </ul>
+    </nav>
+    <h1>Hello</h1>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    main<br/>
+    <nav class="navbar is-transparent">
+      <div class="navbar-start">
+        <a class="navbar-item" href="#">
+          <button type="button" class="button is-dark">Back</button>
+        </a>
+      </div>
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">
+          <button type="button" class="button is-danger">Menu1</button>
+        </a>
+        <a class="navbar-item" href="#">
+          <button type="button" class="button is-danger">Menu2</button>
+        </a>
+        <a class="navbar-item" href="#">
+          <button type="button" class="button is-danger">Menu3</button>
+        </a>
+      </div>
+    </nav>  
+  </div>
+</main>
+    <footer class="">
+        <div class="content has-text-right">
+          <p>
+            &copy ishibe.co.jp
+          </p>
+        </div>
+      </footer>
+<script>
+  // bulma navi
+  document.addEventListener('DOMContentLoaded', () => {
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+    // Check if there are any navbar burgers
+    if ($navbarBurgers.length > 0) {
+
+      // Add a click event on each of them
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+
+          // Get the target from the "data-target" attribute
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+
+          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+
+        });
+      });
+    }
+  });
+</script>
+{% endblock content %}

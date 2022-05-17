@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+      <h1>mvp.css</h1>
+      <form>
+        <label>username:
+            <input type="text" value=""/>
+        </label><br/>
+        <label>password:
+            <input type="password" value=""/>
+        </label><br/>
+        <div>
+            <label>textarea:</label><br/>
+            <textarea></textarea>    
+        </div>
+
+        <label>select:
+            <select name="pets" id="pet-select">
+                <option value="">--</option>
+                <option value="dog">Dog</option>
+                <option value="cat">Cat</option>
+            </select>
+        </label><br/>
+        <div>
+            <label><input type="checkbox" name="check1" checked>
+            check1</label>
+            <label><input type="checkbox" name="check2">
+                check2</label>
+        </div>
+        <div>
+            <label><input type="radio" name="radio1" value="1">
+                radio1</label>
+            <label><input type="radio" name="radio1" value="2">
+                radio2</label>
+        </div>
+        <button type="button">button</button>
+      </form>
+      {% endblock content %}

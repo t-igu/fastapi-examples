@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="description" content="aaaaaa">
+<meta name="author" content="myname">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    .flex{
+        display: flex;
+        padding:10px;
+    }
+</style>
+</head>
+<body>
+<header>
+</header>
+<main>
+    <div class="flex">
+        <div style="width:25%;">
+            <h3>Measure 3 Frameworks</h3>
+            <p>Layouts</p>
+            <ul>
+                <li><a href="/bulma/template">bulma</a></li>
+                <li><a href="/bootstrap/template">bootstrap</a></li>
+                <li><a href="/uikit/template">uikit</a></li>
+            </ul>
+            <p>Components</p>
+            <ul>
+                <li><a href="/bulma/components">bulma components</a></li>
+                <li><a href="/bootstrap/components">bootstrap components</a></li>
+                <li><a href="/uikit/components">uikit components</a></li>
+            </ul>
+            <hr/>
+            <h3>No class Framework</h3>
+            <ul>
+                <li><a href="/noclass/tacit">tacit.css</a></li>
+                <li><a href="/noclass/simple">simple.css</a></li>
+                <li><a href="/noclass/mvp">mvp.css</a></li>
+                <li><a href="/noclass/mini">mini.css</a></li>
+            </ul>
+        </div>
+        <div style="width:75%;">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</main>
+</body>
