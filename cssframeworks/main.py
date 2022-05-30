@@ -1,8 +1,6 @@
 import os
 import sys
 
-from sqlalchemy import true
-import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -29,58 +27,9 @@ templates = Jinja2Templates(directory="templates")
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request,})
 
-
-@app.get("/uikit/template", response_class=HTMLResponse)
-async def flexbox(request: Request):
-    return templates.TemplateResponse("uikit/uikit-template.html", {"request": request,})
-
-@app.get("/uikit/components", response_class=HTMLResponse)
-async def flexbox(request: Request):
-    return templates.TemplateResponse("uikit/components.html", {"request": request,})
-
-@app.get("/uikit/upload", response_class=HTMLResponse)
-async def flexbox(request: Request):
-    return templates.TemplateResponse("uikit/upload.html", {"request": request,})
-
-@app.get("/bulma/template", response_class=HTMLResponse)
-async def flexbox(request: Request):
-    return templates.TemplateResponse("bulma/bulma-template.html", {"request": request,})
-
-@app.get("/bulma/components", response_class=HTMLResponse)
-async def flexbox(request: Request):
-    return templates.TemplateResponse("bulma/components.html", {"request": request,})
-
-@app.get("/bulma/upload", response_class=HTMLResponse)
-async def flexbox(request: Request):
-    return templates.TemplateResponse("bulma/upload.html", {"request": request,})
-
-@app.get("/bootstrap/template", response_class=HTMLResponse)
-async def flexbox(request: Request):
-    return templates.TemplateResponse("bootstrap/bootstrap-template.html", {"request": request,})
-
-@app.get("/bootstrap/components", response_class=HTMLResponse)
-async def flexbox(request: Request):
-    return templates.TemplateResponse("bootstrap/components.html", {"request": request,})
-
-@app.get("/bootstrap/upload", response_class=HTMLResponse)
-async def flexbox(request: Request):
-    return templates.TemplateResponse("bootstrap/upload.html", {"request": request,})
-
-@app.get("/noclass/tacit", response_class=HTMLResponse)
-async def index(request: Request):
-    return templates.TemplateResponse("noclass/tacit.html", {"request": request,})
-
-@app.get("/noclass/simple", response_class=HTMLResponse)
-async def index(request: Request):
-    return templates.TemplateResponse("noclass/simple.html", {"request": request,})
-
-@app.get("/noclass/mvp", response_class=HTMLResponse)
-async def index(request: Request):
-    return templates.TemplateResponse("noclass/mvp.html", {"request": request,})
-
-@app.get("/noclass/mini", response_class=HTMLResponse)
-async def index(request: Request):
-    return templates.TemplateResponse("noclass/mini.html", {"request": request,})
+@app.get("/{framework}/{filename}", response_class=HTMLResponse)
+async def flexbox(request: Request, framework:str, filename: str):
+    return templates.TemplateResponse(f"{framework}/{filename}.html", {"request": request,})
 
 @app.post("/fileupload")
 async def fileupload_post(request: Request):

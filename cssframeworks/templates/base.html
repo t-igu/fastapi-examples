@@ -1,49 +1,76 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta charset="utf-8">
-<meta name="description" content="aaaaaa">
-<meta name="author" content="myname">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-    .flex{
-        display: flex;
-        padding:10px;
-    }
-</style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="description" content="This is My Project Page.">
+    <meta name="author" content="Replace with your name.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    {% block extra_header %}{% endblock %}
+    <style>
+    </style>
 </head>
 <body>
-<header>
-</header>
-<main>
-    <div class="flex">
-        <div style="width:25%;">
-            <h3>Measure 3 Frameworks</h3>
-            <p>Layouts</p>
-            <ul>
-                <li><a href="/bulma/template">bulma</a></li>
-                <li><a href="/bootstrap/template">bootstrap</a></li>
-                <li><a href="/uikit/template">uikit</a></li>
-            </ul>
-            <p>Components</p>
-            <ul>
-                <li><a href="/bulma/components">bulma components</a></li>
-                <li><a href="/bootstrap/components">bootstrap components</a></li>
-                <li><a href="/uikit/components">uikit components</a></li>
-            </ul>
-            <hr/>
-            <h3>No class Framework</h3>
-            <ul>
-                <li><a href="/noclass/tacit">tacit.css</a></li>
-                <li><a href="/noclass/simple">simple.css</a></li>
-                <li><a href="/noclass/mvp">mvp.css</a></li>
-                <li><a href="/noclass/mini">mini.css</a></li>
-            </ul>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">My Project</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle ms-2" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                            Username
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="#">change Pssword</a></li>
+                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown ms-2">
+                        <button type="button" class="btn btn-dark" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+                            </svg>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                            <li><button class="dropdown-item" type="button">Menu1</button></li>
+                            <li><button class="dropdown-item" type="button">Menu2</button></li>
+                            <li><button class="dropdown-item" type="button">Menu3</button></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div style="width:75%;">
+        </nav>
+    </header>
+    <main>
+        <div style="height: 420px; overflow-y: auto;" class="p-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Library</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Data</li>
+                </ol>
+            </nav>
             {% block content %}{% endblock %}
         </div>
-    </div>
-</main>
+    </main>
+    <footer>
+        <p class="text-end m-3">
+        &copy ishibe.co.jp
+        </p>
+    </footer>
 </body>
