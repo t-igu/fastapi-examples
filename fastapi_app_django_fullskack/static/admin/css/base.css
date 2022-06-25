@@ -59,7 +59,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary: #264b5d;
+    /* --primary: #264b5d;
     --primary-fg: #eee;
 
     --body-fg: #eeeeee;
@@ -87,7 +87,38 @@
     --selected-row: #00363a;
 
     --close-button-bg: #333333;
-    --close-button-hover-bg: #666666;
+    --close-button-hover-bg: #666666; */
+
+
+    --primary: black;
+    --primary-fg: #fff;
+
+    --body-fg: #333;
+    --body-bg: #fff;
+    --body-quiet-color: #666;
+    --body-loud-color: #000;
+
+    --breadcrumbs-link-fg: var(--body-bg);
+    --breadcrumbs-bg: var(--primary);
+
+    --link-fg: #447e9b;
+    --link-hover-color: #036;
+    --link-selected-fg: #5b80b2;
+
+    --hairline-color: #e8e8e8;
+    --border-color: #ccc;
+
+    --error-fg: #ba2121;      
+    --message-success-bg: #dfd;
+    --message-warning-bg: #ffc;
+    --message-error-bg: #ffefef;
+
+    --darkened-bg: #f8f8f8;
+    --selected-bg: #e4e4e4;
+    --selected-row: #ffc;
+
+    --close-button-bg: #888;
+    --close-button-hover-bg: #747474;
   }
 }
 
@@ -825,7 +856,7 @@ table#change-history tbody th {
     padding: 0;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    /* height: 100%; */
 }
 
 #container > div {
@@ -900,8 +931,10 @@ table#change-history tbody th {
     justify-content: space-between;
     align-items: center;
     padding: 10px 40px;
-    background: var(--header-bg);
-    color: var(--header-color);
+    /* background: var(--header-bg); */
+    /* color: var(--header-color); */
+    background: black;
+    color: white;
     overflow: hidden;
 }
 

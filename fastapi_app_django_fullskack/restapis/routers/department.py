@@ -1,7 +1,7 @@
 from datetime import datetime
 from fastapi import APIRouter
 from fastapi.responses import ORJSONResponse
-from apis.db_utils import execute_query
+from restapis.db_utils import execute_query
 from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy import (
     Table, Column, MetaData, Integer, Sequence, String, DATETIME, text

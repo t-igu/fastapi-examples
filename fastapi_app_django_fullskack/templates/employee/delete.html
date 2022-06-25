@@ -1,4 +1,5 @@
-<form method="post">
+<form method="post" action="/employee/{{ form.id }}/delete">
+
     {% csrf_token %}
     <table class="uk-table">
         <tr><td>氏名     ：</td><td>{{ object.name             }}</td></tr>

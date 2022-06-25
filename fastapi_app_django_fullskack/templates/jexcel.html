@@ -16,19 +16,21 @@
 {% endblock %}
 
 {% block content %}
-<h4>Employees</h4>
+<div>
+  <h4>Employees</h4>
 
-<p>100,000件のレコードを表示します。数秒で表示できます。</p>
-
-<div id='my-spreadsheet'></div>
-
+  <p>100,000件のレコードを表示します。aggridと比較すると処理速度が劣ります。</p>
+  
+  <div id='my-spreadsheet'></div>
+    
+</div>
 <script>
   let spreadsheet = jexcel(document.getElementById('my-spreadsheet'), {
     // data:data,
     lazyLoading:true,
     loadingSpin:true,    
     tableOverflow:true,
-    tableHeight:'400px',    
+    tableHeight:'360px',    
     columns:[
     // 列情報を定義する
     // Column('actor_id', Integer, Sequence('some_id_seq'), primary_key=True),

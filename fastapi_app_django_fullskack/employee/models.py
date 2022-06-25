@@ -14,8 +14,8 @@ class TDepartment(models.Model):
         return self.name
 
 class TEmployee(models.Model):
-    name = models.CharField(max_length=64, blank=True, null=True)
-    birthday = models.DateField(blank=True, null=True)
+    name = models.CharField(max_length=64, blank=False, null=True)
+    birthday = models.DateField(blank=False, null=True)
     department = models.ForeignKey(TDepartment, models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)    

@@ -30,11 +30,16 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),  #追加
     path('uikit/', TemplateView.as_view(template_name='uikit/index.html'), name='uikit'),  #追加
     path('index/', login_required(TemplateView.as_view(template_name='index.html')), name='index'),  #追加
+    path('fileupload/', login_required(TemplateView.as_view(template_name='fileupload.html')), name='fileupload'),  #追加
+    path('filetransfer/', login_required(TemplateView.as_view(template_name='filetransfer/index.html')), name='filetransfer'),  #追加
+    path('selectbox/', login_required(TemplateView.as_view(template_name='selectbox.html')), name='selectbox'),  #追加
+
     path('aggrid/', login_required(TemplateView.as_view(template_name='aggrid.html')), name='aggrid'),  #追加
     path('jexcel/', login_required(TemplateView.as_view(template_name='jexcel.html')), name='jexcel'),  #追加
     path('employee/', include('employee.urls')),                              #追加
-    path('fileupload/', login_required(TemplateView.as_view(template_name='fileupload.html')), name='fileupload'),  #追加
-    path('selectbox/', login_required(TemplateView.as_view(template_name='selectbox.html')), name='selectbox'),  #追加
+
+    path('allauth/', TemplateView.as_view(template_name='allauth.html'), name='allauth'),          #allauth 追加
+
     path('accounts/', include('allauth.urls')),                              #追加
 ]
 

@@ -1,5 +1,5 @@
 from gunicorn.app.base import BaseApplication
-from apis.settings.server_settings import setup_logger, GUNICORN_OPTIONS
+from restapis.settings.server_settings import setup_logger, GUNICORN_OPTIONS
 from main import app
 
 class StandaloneApplication(BaseApplication):

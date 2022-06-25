@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="description" content="aaaaaa">
+    <meta name="author" content="myname">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="#">
+
+    <title>{% block head_title %}{% endblock %}</title>
+
+    {% include "base/css_and_js.html" %}
+
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+  <body>
+    {% include "base/navbar.html" %}
+    {% block body %}
+      <main>
+        <div class="uk-width-1-1 uk-flex uk-flex-center uk-padding-small">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </main>
+    {% endblock %}
+
+    {% block extra_body %}
+    {% endblock %}
+
+    <footer class="uk-text-right uk-padding-small">
+      stone-parts.co.jp
+    </footer>
+  </body>
+</html>

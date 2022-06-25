@@ -3,10 +3,15 @@
 {% load i18n %}
 
 {% block content %}
+<div>
+
 <button class="uk-button uk-button-link" type="button" onclick="getCurrentUser();">
     ログインユーザーの情報を取得する
 </button>
 <div id="message" class="uk-alert-primary" style="word-break: break-all;"></div>
+
+</div>
+
 <script>
     function getCurrentUser(){
         fetch("/v2/user/me", {credentials: "include"})

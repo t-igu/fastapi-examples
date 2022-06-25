@@ -11,39 +11,208 @@
 {% endblock %}
 
 {% block content %}
-<h4>Employees</h4>
-<p>100,000件のレコードを表示します。Ag-Gridなら2-3秒で表示できます。</p>
+<div class="uk-width-3-4 uk-flex uk-flex-column">
+  <h4>Employees</h4>
+  <div class="uk-flex uk-flex-column uk-padding-remove">
+    <div class="uk-flex uk-flex-between  uk-padding-remove">
+      <div>
+        <span>100,000件のレコードの大量レコードでもAg-Gridなら2-3秒で表示できます。</span>
+      </div>
+      <div class="uk-flex uk-flex-middle uk-padding-remove">
+        <input type="text" class="uk-margin-remove uk-padding-remove" id="filter-text-box" placeholder="Filter..." oninput="onFilterTextBoxChanged()"/>
+        <a href="#" onclick="showModal('create', '/employee/create/')" uk-icon="icon: plus-circle; ratio: 1.5" class="uk-margin-small-left uk-text-success"></a>
+      </div>
+    </div>
 
-<!-- ここに gridを表示する  -->
-<div id="myGrid" style="height: 360px;width:100%;" class="ag-theme-balham"></div>
+    <!-- ここに gridを表示する  -->
+    <div id="myGrid" style="height: 300px;width:100%;" class="ag-theme-balham"></div>
+
+    <!-- ここに HTMLのコードを表示する  -->
+    <div class="uk-flex uk-flex-column uk-margin-top">
+      <pre>
+        <code class="uk-text-left" id="toggle-usage">
+        </code>
+      </pre>
+    </div>
+  </div>
+</div>
+
+<!-- <div id="modal-container" class="uk-modal-container" uk-modal> -->
+<div id="modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div id="modal-content"></div>
+  </div>
+</div>
 
 <script type="text/javascript">
-  // 列情報を定義する
+
+  /**
+   * modal elementをグローバル変数にセットする。
+  */  
+  let element = document.getElementById('modal-container');
+  let modal = UIkit.modal(element);
+
+  /**
+   * FormデータをPostする。
+   **/
+  function sendModalForm(){
+    // modalに表示するhtml domは、Django Templateを利用する。
+    let form = element.querySelector('form');
+    const method = "POST";
+    const body = new FormData(form);
+    fetch(form.action, {method: method, credentials: 'include', body: body})
+    .then((res)=> res.text())
+    .then((data) => {
+      // modalのform表示用のelement
+      let form_content = document.getElementById('modal-content');
+      // form表示用のelementをクリア
+      form_content.innerHTML="";
+      // Django Templateから取得したhtmlテキストをパースしてHTMLElementに変換する。
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data, "text/html");
+      // HTMLElementからformElementを抜き出す。
+      const newForm = doc.querySelector('form');
+      if (newForm){
+        // Formが取得できた場合はエラーなのでmodalのformにformElementを表示する。
+        // Django Templateのボタンのtypeはsubmitなのでsubmitしないようにbuttonに変更
+        const button = newForm.querySelector('button[type="submit"]');
+        button.type="button";
+        button.setAttribute('onclick', 'sendModalForm()');
+        form_content.appendChild(doc.querySelector('form'));
+      } else{
+        UIkit.notification("更新しました。");
+        modal.hide();
+      }
+    }).catch(console.error); 
+  }
+
+  /**
+   * Modal(Form)表示
+   * Django GenericView Templateを呼び出してHTMLのFormを取得し
+   * ModalのcontentsにFormをセットして表示する。
+   **/
+  function showModal(mode, url){
+    let form_content = document.getElementById('modal-content');
+    form_content.innerHTML="";
+    // ModalFormの子要素にタイトル(h3)を追加する。
+    const h3 = document.createElement("h3");
+    h3.innerText = mode;
+    form_content.appendChild(h3);
+    // Fetch APIを使用して、サーバからmodeに対応するHTMLElementを取得する。
+    fetch(url, {credentials: 'include'})
+    .then((response) => response.text())
+    .then((data) => {
+      // console.log("data", data);
+      // 取得したHTML(テキスト)をHTMLElementオブジェクトにパースする。
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data, "text/html");        
+      // HTMLElement内のFormオブジェクトを取得する。。
+      const form = doc.querySelector('form');
+
+      // formにIDを付ける。
+      form.id = 'submit-form';
+
+      // Django Templateのsubmitボタンをbuttonに変更する。
+      // ノーマルパターンと共用で使っているのでDjango Templateを変更してもOK。
+      const button = doc.querySelector('button[type="submit"]');
+      button.type="button";
+
+      // buttonのクリックイベントを追加して、フォーム送信処理を呼び出す。
+      button.setAttribute('onclick', 'sendModalForm()');
+      form_content.appendChild(doc.querySelector('form'));
+
+      // modal(Form)を表示する。
+      modal.show();
+    });
+  }
+
+  /**
+   * Ag-Gridのフィルタボックス入力イベント
+   * **/
+  function onFilterTextBoxChanged() {
+    gridOptions.api.setQuickFilter(document.getElementById('filter-text-box').value);
+  }
+
+  /**
+   * 所属(SDepartment) Maps
+   * **/
+  const departmentMappings = {
+    "1":"人事部",
+    "2":"経理部",
+    "3":"総務部",
+    "4":"法務部",
+    "5":"情報システム部",
+    "6":"技術部",
+    "7":"営業部"
+  }
+
+  /**
+   * 所属コードから所属名を返却
+  */
+  function departmentFormatter(params) {
+        return `${params.value}:${departmentMappings[params.value]}`;
+  }
+
+  /** 
+   * AG-GridのColumn(列)定義
+   * **/
   var columnDefs = [
-  {
-    headerName: "No",
-    valueGetter: "node.rowIndex + 1", width: 80, cellStyle: {"text-align": "right"}
-  },    
-    {headerName: "id", field: "id", width: 80, hide: true},
+    {headerName: "id", field: "id", width: 80, headerCheckboxSelection: true, headerCheckboxSelectionFilteredOnly: true, checkboxSelection: true },
     {headerName: "name", field: "name", width: 160},
-    {headerName: "birthday", field: "birthday", width: 160},
+    {headerName: "birthday", field: "birthday", width: 100},
+    {headerName:'department_id',field:'department_id',width:100, valueFormatter: departmentFormatter},
+    {headerName:'created_at',field:'created_at',width:180},
+    {headerName:'updated_at',field:'updated_at', width:180 },
+    {headerName: ' ', width: 100,
+      cellRenderer: (params) => {
+        // 更新/削除ボタンをrender
+        const div = document.createElement('div');
+        const a1 = document.createElement('a');
+        a1.setAttribute('onclick', `showModal('update', '/employee/${params.data.id}/update/')`);
+        a1.setAttribute('uk-icon', 'icon:pencil; ratio: 0.8');
+        a1.classList.add("uk-text-primary");
+        const a2 = document.createElement('a');
+        a2.classList.add("uk-margin-left");
+        a2.setAttribute('onclick', `showModal('delete', '/employee/${params.data.id}/delete/')`);
+        a2.setAttribute('uk-icon', 'icon:trash; ratio: 0.8');
+        a2.classList.add("uk-text-danger");
+        div.appendChild(a1);
+        div.appendChild(a2);
+        return div;
+      }
+    }    
   ];
 
-  // ag-gridのオプション
+  // ag-gridのオプション(AG-gridオブジェクト)
   var gridOptions = {
     columnDefs: columnDefs,
+    rowSelection: 'multiple',
   };
+
   // setup the grid after the page has finished loading
   document.addEventListener('DOMContentLoaded', () => {
-
+    // AG-Gridを描画するタグ(Emenent)
     const gridDiv = document.querySelector('#myGrid');
+    // AG-Gridを生成
     new agGrid.Grid(gridDiv, gridOptions);
-
+    // AG-GridのデータはサーバーからFetchAPIで取得する。
     fetch('/v2/employee', {credentials: 'include'})
     .then((response) => response.json())
     .then((data) => {
-      // console.log(data);
-      gridOptions.api.setRowData(data);
+    // AG-Gridのデータを更新。
+    gridOptions.api.setRowData(data);
+    });
+
+    /**
+     *  おまけ。この画面を表示しているHTMLのコードをサーバーから
+     * 取得して画面上に表示する。
+    */
+    fetch('/v2/code/aggrid.html', {credentials: 'include'})
+    .then((response) => response.text())
+    .then((data) => {
+      let p = document.getElementById('toggle-usage');
+      p.innerText=data.trim();
     });
   });
 </script> 

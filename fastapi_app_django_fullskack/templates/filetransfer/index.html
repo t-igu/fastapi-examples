@@ -1,0 +1,201 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'jspreadsheet-ce/jsuites.css' %}" rel="stylesheet">
+<script src="{% static 'jspreadsheet-ce/jsuites.js' %}" type="text/javascript"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<style>
+    .dz-preview{
+        font-size: small;
+    }
+    .dz-thumbnail {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    .uk-progress {
+        margin: 5px !important;
+        height: 5px !important;
+    }
+    li.directory:hover {
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="uk-card uk-card-default uk-padding-small uk-width-1-5" style="overflow-y: auto;">
+    <ul class="uk-list" id="directory">
+    </ul>
+</div>
+
+<form class="uk-card uk-card-default uk-padding-small uk-width-4-5" style="overflow-y: auto;" id="image_drop_area">
+    <input type="hidden" name="save_dir" id="save_dir"/>
+    <div class="dz-default dz-message uk-text-left">
+        <ul class="uk-list" id="details">
+        </ul>
+    </div>
+</form>   
+
+<!-- This is the modal -->
+<div id="dz-preview-modal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-margin uk-padding-small uk-position-bottom-right uk-width-2-5">
+        <div id="preview_area" class="dropzone-custom"></div>
+        {% include 'filetransfer/dz-preview.html' %}
+    </div>
+</div>    
+<script type="application/javascript">
+
+Dropzone.autoDiscover = false;
+
+function createLi(parentpath, node){
+    let li = document.createElement('li');
+    li.dataset.dirname = parentpath;
+    let div = document.createElement('div');
+    div.onclick = function(){
+        document.getElementById('save_dir').value = parentpath;
+        getTree('details', parentpath, false, false);
+    }
+    let span = document.createElement('span');
+    if (node.type=="d"){
+        span.setAttribute('uk-icon', 'icon:folder');
+    }
+    div.appendChild(span);
+    let span2 = document.createElement('span');
+    span2.innerText = node.name;
+    div.appendChild(span2);
+    li.appendChild(div);
+    return li;    
+}
+
+function createTree(id, dir, parentNode, json, dirOnly=false, recursive=true){
+    let data = json[dir];
+    if (!data) return;
+    for (let i=0; i< data.children.length; i++){
+        let node = data.children[i];
+        let parentpath = `${dir}/${node.name}`;
+        if (node.type=='d'||!dirOnly){
+            let li = createLi(parentpath, node);
+            li.classList.add(id);
+            parentNode.appendChild(li);
+            if (node.type=='d' && recursive){
+                let ul = document.createElement('ul');
+                li.appendChild(ul);
+                createTree(id, parentpath, ul, json, dirOnly, recursive);
+            }
+        }
+    }
+}
+
+function getTree(id, dirname, dirOnly=false, recursive=true){
+    const params = {directory : dirname};
+    const query = new URLSearchParams(params);
+    fetch(`/v2/filetransfer/structure?${query}`)
+    .then((res) => { return res.json() })
+    .then((json) => {
+        // console.log("json", json);
+        let ul = document.getElementById(id);
+        ul.innerHTML='';
+        ul.classList.add(id);
+        let rootdir = Object.keys(json)[0];
+        createTree(id, rootdir, ul, json, dirOnly, recursive);
+    });
+}
+
+const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+function niceBytes(x){
+  let l = 0, n = parseInt(x, 10) || 0;
+  if(n === 1) return '1 byte'
+
+  while(n >= 1024 && ++l){
+      n = n/1024;
+  }
+  //include a decimal point and a tenths-place digit if presenting 
+  //less than ten of KB or greater units
+  return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
+}
+
+let modal_elem = document.getElementById('dz-preview-modal')
+let preview_modal = UIkit.modal(modal_elem);
+
+const dropzone_options = {
+	url                          : '/v2/filetransfer/upload',
+	paramName                    : 'file',
+	maxFilesize                  : 999 , //MB
+	addRemoveLinks               : false ,
+    createImageThumbnails        : false ,
+	previewsContainer            : '#preview_area' ,
+	previewTemplate : document.getElementById("dz-preview").innerHTML,
+    // uploadMultiple               : true,
+    chunking                     : true,
+    chunkSize                    : 100000,
+    clickable                    : false,
+	thumbnailWidth               : 15 , //px
+	thumbnailHeight              : 15 , //px
+	dictRemoveFile               :'<span class="uk-icon-small" uk-icon="trash"></span>' ,
+	dictCancelUpload             :'cancel' ,
+	dictCancelUploadConfirmation : 'アップロードをキャンセルします。よろしいですか？' ,
+    uploadprogress:function(file, progress, size){
+        console.log("uploadprogress", file);        
+        let uploadedFileSize = niceBytes(parseInt(size));
+		file.previewElement.querySelector('.my-processing-size').innerHTML = uploadedFileSize;
+		file.previewElement.querySelector(".uk-progress").value = progress;
+	},
+	dragover: function( arg ){
+		arg.srcElement.classList.add('dragover');
+	} ,
+    sending: function(){
+        console.log("sending", this.url);        
+    },
+	dragleave: function( arg ){
+		arg.srcElement.classList.remove('dragover');
+	} ,
+	drop: function( arg ){
+		arg.srcElement.classList.remove('dragover');
+        preview_modal.show();      
+	} ,
+	processing: function( file ){
+        console.log("processing", file);
+	} ,
+	queuecomplete: function( file ){
+        // getTree();
+        console.log("queuecomplete");
+        let parentpath = document.getElementById('save_dir').value;
+        getTree('details', parentpath, false, false);
+	} ,
+	canceled:function(arg){
+	} ,
+	success:function(file, rt, xml){
+		file.previewElement.classList.add("dz-success");
+        setTimeout(() => {
+            file.previewElement.querySelector('.dz-success-mark').classList.remove('uk-hidden');
+        }, 1000);
+	},
+	error:function(file, _error_msg){
+		file.previewElement.classList.add("dz-error");
+		file.previewElement.querySelector('.dz-error-mark').classList.remove('uk-hidden');
+		file.previewElement.querySelector('.dz-error-message').classList.remove('uk-hidden');
+		// var ref;
+		// (ref = file.previewElement) != null ? ref.parentNode.removeChild(file.previewElement) : void 0;
+	},
+	// removedfile:function(file){
+	// 	// delete_hidden('dropzone_files[]',file.xhr.response);
+	// 	var ref;
+	// 	(ref = file.previewElement) != null ? ref.parentNode.removeChild(file.previewElement) : void 0;
+	// },
+}
+document.addEventListener('DOMContentLoaded', function(){
+
+    let myDropzone = new Dropzone('#image_drop_area', dropzone_options);
+    getTree('directory', '/files', true, true);
+    getTree('details', '/files', false, false);
+
+}, false);
+</script>
+{% endblock %}

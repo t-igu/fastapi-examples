@@ -1,12 +1,15 @@
 {% extends "account/base.html" %}
 
-{% block content %}
+{% block extra_head %}
 <style>
 .uk-table-small td, .uk-table-small th{
   padding:4px 5px;
 }
 </style>
+{% endblock %}
 
+{% block content %}
+<div>
   <h2>Employee List</h2>
 
   <table  class="uk-table uk-table-small uk-table-divider uk-table-justify">
@@ -43,7 +46,6 @@
             <li><a href="?page=1"><span class="uk-link">first</span></a></li>
             <li><a href="?page={{ page_obj.previous_page_number }}"><span uk-pagination-previous></span></a></li>
         {% endif %}
-
         {% for i in page_obj.paginator.page_range %}
             {% if page_obj.number == i %}
                 <li class="uk-disabled"><span>{{ i }}</span></li>
@@ -51,11 +53,10 @@
                 <li><a href="?page={{ i }}"><span class="uk-link">{{ i }}</span></a></li>
             {% endif %}
         {% endfor %}
-
         {% if page_obj.has_next %}
             <li><a href="?page={{ page_obj.next_page_number }}"><span class="uk-link" uk-pagination-next></span></a></li>
             <li><a href="?page={{ page_obj.paginator.num_pages }}"><span class="uk-link">last</span></a></li>
         {% endif %}
     </ul>
-    
+</div>
 {% endblock %}

@@ -24,6 +24,8 @@ def get_user(sessionid):
             if not session_hash_verified:
                 return None
 
+        # print(dict(user))
+
         return {
             # date_joined: "2022-04-01T10:04:33.202141+00:00"
             "email": user.email,

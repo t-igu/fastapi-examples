@@ -1,0 +1,35 @@
+<nav class="uk-navbar-container" uk-navbar>
+  <a class="uk-navbar-item uk-logo" href="#">Logo</a>      <!-- <strong>Menu:</strong> -->
+  <div class="uk-navbar-left">
+    {% if user.is_authenticated %}
+    <ul  class="uk-navbar-nav">
+      {% include "base/menu.html" %}
+    </ul>
+    {% endif %}
+  </div>
+  <!-- user.is_superuser -->
+  <div class="uk-navbar-right">
+    {% if user.is_authenticated %}
+    <ul  class="uk-navbar-nav">
+      <li class="uk-margin-right">
+        {% if user.is_superuser %}
+        <div class="uk-navbar-item">
+          <li><a href="/admin">admin</a></li>
+        </div>
+        {% endif %}
+        <div class="uk-navbar-item">
+          <button type="button" class="uk-button uk-button-danger uk-button-small">{{ user }}</button>
+          <div class="uk-navbar-dropdown">
+            <ul class="uk-nav uk-navbar-dropdown-nav">
+              <li><a class="uk-link" href="{% url 'account_email' %}">E-mail変更</a></li>
+              <li><a class="uk-link" href="{% url 'account_change_password' %}">パスワード変更</a></li>
+              <li><a class="uk-link" href="{% url 'account_reset_password' %}">パスワードリセット</a></li>
+              <li><a class="uk-link" href="{% url 'account_logout' %}">logout</a></li> 
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+    {% endif %}
+  </div>
+</nav>

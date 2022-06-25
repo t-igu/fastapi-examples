@@ -1,4 +1,4 @@
-<form method="post">
+<form method="post" action="/employee/{{ form.id }}/update">
     {% csrf_token %}
     <table class="uk-table">{{form.as_table}}</table>
     <button type="submit" class="uk-button uk-button-primary">更新</button>

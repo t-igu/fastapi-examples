@@ -1,5 +1,5 @@
-<form method="post">
+<form method="post" action="{% url 'employee:create' %}">
     {% csrf_token %}
     <table class="uk-table">{{form.as_table}}</table>
     <button type="submit" class="uk-button uk-button-primary">登録</button>
-</form>
+</form>    
