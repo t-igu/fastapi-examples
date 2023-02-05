@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/css/uikit.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.1/dist/js/uikit-icons.min.js"></script>    
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+<title>pyfiledrop</title>
+<style>
+    .dz-preview{
+        font-size: small;
+    }
+    .dz-thumbnail {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    .uk-progress {
+        margin: 5px !important;
+        height: 5px !important;
+    }    
+</style>
+</head>
+
+<body>
+    <form action="/upload">
+        <div id="image_drop_area"  class="js-upload uk-placeholder uk-text-center">
+            <div class="dz-default dz-message">
+                <span uk-icon="icon: cloud-upload"></span>
+                <span class="uk-text-middle">Attach binaries by dropping them</span>    
+            </div>            
+        </div>
+        <div id="preview_area" class="dropzone-custom"></div>
+    </form>
+    <!-- file upload preview  -->
+    <div id="dz-preview" style="display:none">
+        <div class="dz-preview dz-file-preview uk-flex uk-padding">
+            <div class="dz-details uk-flex uk-fkex-middle uk-margin-right">
+                <img class="dz-thumbnail" data-dz-thumbnail>
+                <div class="dz-filename uk-margin-left" style="width:200px;"><span data-dz-name></span></div>
+                <div class="my-progress uk-margin-left">0</div>           
+                <div class="uk-margin-left">/</div>
+                <progress class="uk-progress uk-margin-left" value="" max="100"></progress>
+                <div class="dz-success-mark uk-hidden uk-margin-left uk-margin-right">
+                    <span class="uk-icon-small uk-text-success" uk-icon="check"></span>
+                </div>
+                <div class="dz-error-mark uk-hidden uk-margin-left uk-margin-right">
+                    <span class="uk-icon-small uk-text-danger" uk-icon="warning"></span>
+                </div>
+                <div class="dz-error-message uk-hidden uk-text-danger uk-margin-right"><span data-dz-errormessage>Upload Failed.</span></div>
+            </div>
+        </div>
+    </div>
+<script type="application/javascript">
+    const dropzone_options = {
+	url                          : '/upload',
+	paramName                    : 'file',
+	maxFilesize                  : 999 , //MB
+	addRemoveLinks               : true ,
+	previewsContainer            : '#preview_area' ,
+	previewTemplate : document.getElementById("dz-preview").innerHTML,
+    // uploadMultiple               : true,
+    chunking                     : true,
+    chunkSize                    : 100000,
+	thumbnailWidth               : 15 , //px
+	thumbnailHeight              : 15 , //px
+	dictRemoveFile               :'<span class="uk-icon-small" uk-icon="trash"></span>' ,
+	dictCancelUpload             :'キャンセル' ,
+	dictCancelUploadConfirmation : 'アップロードをキャンセルします。よろしいですか？' ,
+    uploadprogress:function(file, progress, size){
+        let uploadedFileSize = size;
+        console.log("size=", size);
+		// file.previewElement.querySelector(".my-progress").innerHTML = `${Math.round((size / 1000) *100) / 100}KB` ;
+		file.previewElement.querySelector(".uk-progress").value = progress;
+	},
+	dragover: function( arg ){
+        // console.log('arg',arg);
+		arg.srcElement.classList.add('dragover');
+	} ,
+	dragleave: function( arg ){
+		arg.srcElement.classList.remove('dragover');
+	} ,
+	drop: function( arg ){
+		arg.srcElement.classList.remove('dragover');
+	} ,
+	processing: function( file ){
+		// ファイルアップロード中の処理（※要追加）
+        console.log("processing", file);
+	} ,
+	queuecomplete: function( file ){
+        console.log("queuecomplete", file);
+	} ,
+	canceled:function(arg){
+	} ,
+	success:function(file, rt, xml){
+		file.previewElement.classList.add("dz-success");
+        setTimeout(() => {
+            // file.previewElement.querySelector('.dz-success-mark').classList.remove('uk-hidden');            
+        }, 1000);
+	},
+	error:function(file, _error_msg){
+		file.previewElement.classList.add("dz-error");
+		file.previewElement.querySelector('.dz-error-mark').classList.remove('uk-hidden');
+		file.previewElement.querySelector('.dz-error-message').classList.remove('uk-hidden');
+		// var ref;
+		// (ref = file.previewElement) != null ? ref.parentNode.removeChild(file.previewElement) : void 0;
+	},
+	// removedfile:function(file){
+	// 	// delete_hidden('dropzone_files[]',file.xhr.response);
+	// 	var ref;
+	// 	(ref = file.previewElement) != null ? ref.parentNode.removeChild(file.previewElement) : void 0;
+	// },
+}
+document.addEventListener("DOMContentLoaded", function(){
+    Dropzone.autoDiscover = false;
+    let myDropzone = new Dropzone('#image_drop_area', dropzone_options);
+});
+</script>
+</body>
+</html>
